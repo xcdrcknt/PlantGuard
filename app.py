@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS  # Import CORS
+from flask_ngrok import run_with_ngrok  # Import Ngrok integration
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
@@ -11,6 +12,7 @@ from torchvision import models
 
 # Initialize Flask app
 app = Flask(__name__)
+run_with_ngrok(app)  # Automatically setup Ngrok
 
 # Enable CORS for all routes
 CORS(app)  # This allows all origins
@@ -82,4 +84,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)  # Run on all network interfaces
+    app.run()  # Ngrok will manage host and port automatically
