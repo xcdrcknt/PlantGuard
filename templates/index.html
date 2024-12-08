@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantGuard - Plant Disease Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PlantGuard</h1>
+            <p>Detect Plant Diseases</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <input type="file" id="imageUpload" accept="image/*" hidden>
+                <div class="upload-box" id="uploadBox">
+                    <img src="" alt="Uploaded Image" id="uploadedImage" class="hidden">
+                    <div class="upload-content">
+                        <i class="upload-icon">📤</i>
+                        <p>Click to Upload or Drag and Drop an Image</p>
+                    </div>
+                </div>
+                <button id="analyzeBtn" class="analyze-btn hidden">Analyze Plant</button>
+                <button id="removeImageBtn" class="remove-image-btn hidden">Remove Image</button>
+            </div>
+
+            <div class="result-section hidden" id="resultSection">
+                <h2>Analysis Results</h2>
+                <div class="result-card">
+                    <div class="result-icon" id="resultIcon">🌿</div>
+                    <div class="result-details">
+                        <h3 id="diseaseType">Loading...</h3>
+                        <p id="diseaseDescription">Analyzing your plant image...</p>
+                    </div>
+                </div>
+                <div class="recommendations" id="recommendations">
+                    <!-- Recommendations will be dynamically added here -->
+                    <p id="prediction">Prediction will appear here.</p>
+                    <p id="confidence">Confidence will appear here.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2024 PlantGuard | cdrcknt</p>
+        </footer>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>

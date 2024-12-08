@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 30px;
+    background-color: #2ecc71;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.upload-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.upload-box {
+    border: 2px dashed #27ae60;
+    border-radius: 10px;
+    padding: 50px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-box:hover {
+    background-color: #f1f8ff;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+#uploadedImage {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.analyze-btn, .remove-image-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.analyze-btn:hover {
+    background-color: #2980b9;
+}
+
+.remove-image-btn {
+    background-color: red;
+}
+
+.remove-image-btn:hover {
+    background-color: #8b0a0a;
+}
+
+.result-section {
+    margin-top: 30px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.result-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.result-icon {
+    font-size: 3rem;
+    margin-right: 20px;
+}
+
+.result-details h3 {
+    color: #2ecc71;
+    margin-bottom: 10px;
+}
+
+.recommendations {
+    background-color: #f1f8ff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+footer {
+    margin-top: 20px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#loadingSpinner {
+    display: none;
+    font-size: 1.5rem;
+    color: #3498db;
+    margin-top: 20px;
+}
+
+.loading {
+    display: block !important;
+}
+
+.dragover {
+    background-color: #e8f5e9;
+    border-color: #2ecc71;
+}
