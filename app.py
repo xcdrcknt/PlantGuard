@@ -1,39 +1,37 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS  # Import CORS
-from flask_ngrok import run_with_ngrok  # Import Ngrok integration
-from PIL import Image
 import torch
 import torchvision.transforms as transforms
 import torch.nn as nn
 import io
 import os
-import urllib.request
+from PIL import Image
 from torchvision import models
 
 # Initialize Flask app
 app = Flask(__name__)
-run_with_ngrok(app)  # Automatically setup Ngrok
 
 # Enable CORS for all routes
 CORS(app)  # This allows all origins
 
-# Model file URL from Google Drive
-model_url = "https://drive.google.com/uc?export=download&id=1CreDGF6OETKYsrZQ679_snIX5OBjW18_"
-model_path = "plantguard_model.pth"
-
-# Download the model file if it doesn't exist
-if not os.path.exists(model_path):
-    print(f"Model file not found locally. Downloading from Google Drive...")
-    urllib.request.urlretrieve(model_url, model_path)
-    print("Download complete.")
+# Set environment (can be set in environment variables)
+ENVIRONMENT = os.getenv('FLASK_ENV', 'development')  # Default to 'development'
 
 # Load ResNet18 model
 model = models.resnet18(weights='IMAGENET1K_V1')  # Load the pre-trained ResNet18 model
 model.fc = nn.Linear(model.fc.in_features, 3)  # Modify the final layer for your classification
 
+# Model file path
+model_path = "plantguard_model.pth"
+
 # Load the saved model weights from the downloaded file
-model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))  # Ensure correct loading on CPU or GPU
-model.eval()  # Set the model to evaluation mode
+try:
+    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))  # Ensure correct loading on CPU or GPU
+    model.eval()  # Set the model to evaluation mode
+    print("Model loaded successfully.")
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
 
 # Define image transformation (same as during training)
 transform = transforms.Compose([
@@ -84,4 +82,8 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run()  # Ngrok will manage host and port automatically
+    # Set the app to run in the correct mode (development/production)
+    if ENVIRONMENT == 'development':
+        app.run(debug=True, host='0.0.0.0', port=5000)  # For local network access
+    else:
+        app.run(debug=False, host='0.0.0.0', port=5000)  # For production, run on all interfaces

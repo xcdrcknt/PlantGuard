@@ -71,8 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         diseaseDescription.textContent = "Please wait while we process the image...";
         recommendations.innerHTML = "";
 
-        // Send the image to the Flask API
-        fetch("http://127.0.0.1:5000/predict", { // Replace with your deployed API URL
+        fetch("http://192.168.1.8:5000/predict", {  // Replace with the actual local IP
             method: "POST",
             body: formData
         })
@@ -83,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 diseaseDescription.textContent = "The uploaded image does not appear to be a plant.";
                 recommendations.innerHTML = "";
             } else {
-                // Update UI with the analysis result
                 const results = {
                     'Healthy': {
                         icon: '🌿',
@@ -119,10 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 diseaseType.textContent = data.prediction;
                 diseaseDescription.textContent = result.description;
 
-                // Clear previous recommendations
                 recommendations.innerHTML = "";
 
-                // Add new recommendations
                 result.recommendations.forEach(rec => {
                     const p = document.createElement('p');
                     p.textContent = `• ${rec}`;
@@ -135,15 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
             diseaseType.textContent = "Error";
             diseaseDescription.textContent = "An error occurred while processing the image.";
         });
-    });
+    });  // <-- This closing brace is added here to fix the syntax error
 
     // Remove Image button functionality
     removeImageBtn.addEventListener('click', () => {
-        // Clear the uploaded image and reset UI
-        uploadedImage.src = '';
         uploadedImage.classList.add('hidden');
         analyzeBtn.classList.add('hidden');
         removeImageBtn.classList.add('hidden');
         resultSection.classList.add('hidden');
+        imageUpload.value = "";  // Clear the file input
     });
 });
