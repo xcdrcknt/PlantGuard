@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS  # Import CORS
 from PIL import Image
 import torch
 import torchvision.transforms as transforms
@@ -10,6 +11,9 @@ from torchvision import models
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Enable CORS for all routes
+CORS(app)  # This allows all origins
 
 # Model file URL from Google Drive
 model_url = "https://drive.google.com/uc?export=download&id=1CreDGF6OETKYsrZQ679_snIX5OBjW18_"
@@ -42,14 +46,16 @@ def index():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Get the image from the request
         file = request.files["image"]
+        print(f"File received: {file.filename}")  # Log the file name to ensure the file is uploaded
+        
+        # Check if file is empty
+        if not file:
+            return jsonify({"prediction": "No file uploaded", "confidence": 0.0})
+        
+        # Open the image
         image = Image.open(io.BytesIO(file.read())).convert("RGB")
-
-        # Basic validation: Check if image size is reasonable for a plant
-        width, height = image.size
-        if width < 50 or height < 50:  # Arbitrary size check
-            return jsonify({"prediction": "Invalid Image", "confidence": 0.0})
+        print(f"Image opened successfully: {image.size}")  # Log image size to ensure it's processed
 
         image = transform(image).unsqueeze(0)  # Add batch dimension
 
@@ -74,5 +80,6 @@ def predict():
         print(f"Error: {e}")
         return jsonify({"prediction": "Error", "confidence": 0.0}), 500
 
+
 if __name__ == "__main__":
-       app.run(host="0.0.0.0", port=5000)  # Run on all network interfaces
+    app.run(host="0.0.0.0", port=5000)  # Run on all network interfaces
