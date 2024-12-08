@@ -4,17 +4,29 @@ import torch
 import torchvision.transforms as transforms
 import torch.nn as nn
 import io
+import os
+import urllib.request
 from torchvision import models
 
 # Initialize Flask app
 app = Flask(__name__)
 
+# Model file URL from Google Drive
+model_url = "https://drive.google.com/uc?export=download&id=1CreDGF6OETKYsrZQ679_snIX5OBjW18_"
+model_path = "plantguard_model.pth"
+
+# Download the model file if it doesn't exist
+if not os.path.exists(model_path):
+    print(f"Model file not found locally. Downloading from Google Drive...")
+    urllib.request.urlretrieve(model_url, model_path)
+    print("Download complete.")
+
 # Load ResNet18 model
 model = models.resnet18(weights='IMAGENET1K_V1')  # Load the pre-trained ResNet18 model
 model.fc = nn.Linear(model.fc.in_features, 3)  # Modify the final layer for your classification
 
-# Load the saved model weights from local path
-model.load_state_dict(torch.load("plantguard_model.pth", map_location=torch.device('cpu'), weights_only=True))  # Ensure correct loading on CPU or GPU
+# Load the saved model weights from the downloaded file
+model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))  # Ensure correct loading on CPU or GPU
 model.eval()  # Set the model to evaluation mode
 
 # Define image transformation (same as during training)
